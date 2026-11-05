@@ -1,0 +1,11 @@
+/* Row.css */
+.row { padding: 26px 56px; }
+.row-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.row-head h2 { font-size: 22px; letter-spacing: -.3px; }
+.row-head button {
+  width: 36px; height: 36px; margin-left: 8px; color: #fff;
+  border-radius: 10px; border: 1px solid var(--line); background: #111;
+}
+.row-head button:hover { border-color: #666; }
+.row-scroll { display: flex; gap: 20px; overflow-x: auto; padding: 12px 0; scrollbar-width: none; }
+.row-scroll::-webkit-scrollbar { display: none; }

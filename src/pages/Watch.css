@@ -1,0 +1,307 @@
+
+/* NOVASTREAM WATCH PAGE */
+
+.watch-page {
+  width: 100%;
+  min-height: 100vh;
+  padding: 14px 3%;
+  box-sizing: border-box;
+  background:
+    radial-gradient(ellipse at top, #19101d 0%, #08080c 45%);
+  color: #fff;
+}
+
+/* HEADER */
+
+.watch-header {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 14px;
+}
+
+.watch-header > div {
+  flex: 1;
+  min-width: 180px;
+}
+
+.watch-header h2 {
+  margin: 0;
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.5px;
+}
+
+.watch-header p {
+  margin: 5px 0 0;
+  color: #9995a3;
+  font-size: 13px;
+}
+
+.watch-header > span {
+  color: #e50914;
+  font-size: 12px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* BACK BUTTON */
+
+.watch-header button {
+  padding: 10px 17px;
+  color: #fff;
+  background: rgba(255,255,255,.055);
+  border: 1px solid rgba(255,255,255,.12);
+  border-radius: 9px;
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  cursor: pointer;
+  transition: .25s ease;
+}
+
+.watch-header button:hover {
+  background: rgba(229,9,20,.15);
+  border-color: #e50914;
+  transform: translateY(-2px);
+}
+
+/* MAIN PLAYER */
+
+.main-player {
+  width: 100%;
+  max-width: 1500px;
+  margin: 0 auto;
+  min-width: 0;
+}
+
+/* CINESRC PLAYER */
+
+.nova-player {
+  width: 100%;
+  background: rgba(13,12,19,.96);
+  border: 1px solid rgba(255,255,255,.1);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 18px 65px rgba(0,0,0,.45);
+}
+
+/* PLAYER HEADER */
+
+.nova-player-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 15px;
+  padding: 15px 21px;
+  background: linear-gradient(
+    110deg,
+    rgba(255,255,255,.045),
+    transparent
+  );
+}
+
+.nova-brand {
+  font-size: 13px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.nova-brand span {
+  color: #e50914;
+}
+
+.nova-player-top h2 {
+  margin: 7px 0 3px;
+  font-size: 19px;
+}
+
+.nova-player-top small {
+  color: #918d9a;
+  font-size: 12px;
+}
+
+.nova-live {
+  color: #ff4650;
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 1px;
+}
+
+/* VIDEO SCREEN */
+
+.nova-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.nova-screen iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  display: block;
+  border: 0;
+}
+
+/* LOADING SCREEN */
+
+.nova-loading {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 13px;
+  background:
+    radial-gradient(circle, #21101a, #08080c 65%);
+  color: white;
+  font-size: 14px;
+}
+
+.nova-loading strong {
+  font-size: 16px;
+  letter-spacing: 3px;
+}
+
+.nova-loading span {
+  color: #aaa;
+  font-size: 12px;
+}
+
+.nova-spinner {
+  width: 38px;
+  height: 38px;
+  border: 3px solid rgba(255,255,255,.12);
+  border-top-color: #e50914;
+  border-radius: 50%;
+  animation: nova-spin .8s linear infinite;
+}
+
+@keyframes nova-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+/* PLAYER FOOTER */
+
+.nova-player-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 13px 20px;
+  border-top: 1px solid rgba(255,255,255,.08);
+  color: #77727f;
+  font-size: 10px;
+  letter-spacing: 1.2px;
+}
+
+/* ERROR BUTTON */
+
+.nova-loading button {
+  padding: 10px 20px;
+  color: white;
+  background: #e50914;
+  border: 0;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* MOBILE */
+
+@media (max-width: 700px) {
+  .watch-page {
+    padding: 10px;
+  }
+
+  .watch-header {
+    gap: 12px;
+    margin-bottom: 12px;
+  }
+
+  .watch-header h2 {
+    font-size: 18px;
+  }
+
+  .watch-header button {
+    padding: 9px 12px;
+  }
+
+  .nova-player {
+    border-radius: 10px;
+  }
+
+  .nova-player-top {
+    padding: 12px;
+  }
+
+  .nova-player-top h2 {
+    font-size: 15px;
+  }
+
+  .nova-screen {
+    aspect-ratio: 16 / 9;
+  }
+
+  .nova-player-footer {
+    padding: 11px;
+    font-size: 8px;
+  }
+}
+
+.provider-selector {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin: 22px 0;
+}
+
+.provider-selector button {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 12px 20px;
+  border: 1px solid #303044;
+  border-radius: 12px;
+  background: #151522;
+  color: #fff;
+  cursor: pointer;
+}
+
+.provider-selector button.active {
+  border-color: #9b5cff;
+  background: #29203e;
+}
+
+.provider-selector small {
+  color: #aaa;
+}
+
+.library-player,
+.provider-message {
+  padding: 24px;
+  border: 1px solid #303044;
+  border-radius: 14px;
+  background: #151522;
+  color: white;
+}
+
+.library-player input {
+  width: 100%;
+  box-sizing: border-box;
+  margin: 15px 0;
+  padding: 13px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: #090912;
+  color: white;
+}

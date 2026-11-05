@@ -1,0 +1,41 @@
+
+.search-message {
+  padding: 18px;
+  color: #aaa;
+  text-align: center;
+  font-size: 13px;
+}
+
+.search-result-info {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  min-width: 0;
+}
+
+.search-result-info strong {
+  color: white;
+}
+
+.search-result-info small {
+  color: #aaa;
+}
+
+.search-type {
+  width: fit-content;
+  padding: 3px 7px;
+  border-radius: 5px;
+  font-size: 9px;
+  font-weight: 800;
+  letter-spacing: 0.7px;
+}
+
+.movie-type {
+  background: #34234f;
+  color: #c9a5ff;
+}
+
+.tv-type {
+  background: #173c36;
+  color: #83e6c5;
+}

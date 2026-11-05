@@ -1,0 +1,8 @@
+/* Movie.css */
+.detail { min-height: 100vh; background-size: cover; background-position: center; position: relative; display: flex; align-items: flex-end; }
+.detail-fade { position: absolute; inset: 0; background: linear-gradient(to top, var(--bg) 10%, rgba(0,0,0,.3)); }
+.detail-body { position: relative; padding: 0 56px 80px; max-width: 700px; }
+.tags { display: flex; gap: 8px; margin-bottom: 14px; }
+.tags span { border: 1px solid #444; border-radius: 999px; padding: 4px 12px; font-size: 13px; }
+.detail h1 { font-size: 52px; margin-bottom: 10px; }
+.detail .overview { color: #ccc; margin: 14px 0 22px; line-height: 1.5; }
