@@ -14,9 +14,7 @@ export default function Row({ title, fetcher }) {
     fetcher()
       .then((data) => {
         if (active) {
-          setMovies(
-            (data.results || []).filter((movie) => movie.title)
-          );
+          setMovies((data.results || []).filter((movie) => movie.title));
           setError(false);
         }
       })
@@ -30,9 +28,9 @@ export default function Row({ title, fetcher }) {
     };
   }, []);
 
-  const scroll = (dir) => {
+  const scroll = (direction) => {
     scroller.current?.scrollBy({
-      left: dir * 600,
+      left: direction * 600,
       behavior: "smooth",
     });
   };
@@ -57,4 +55,3 @@ export default function Row({ title, fetcher }) {
     </section>
   );
 }
-

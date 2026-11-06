@@ -8,7 +8,7 @@ import {
   getExternalIds,
   IMG,
   GENRES,
-} from "../api/tmdb";
+} from "../api/cinemeta";
 import { getImdbRating, hasOmdbKey } from "../api/omdb";
 import DiceRoller from "./DiceRoller";
 import "./DiceModal.css";
@@ -87,7 +87,7 @@ function PickCard({ kind, item, delay, onClose }) {
       style={{ animationDelay: `${delay}s` }}
     >
       <img
-        src={`${IMG}/w342${item.poster_path}`}
+        src={item.poster}
         alt={title}
       />
 

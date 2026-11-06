@@ -1,11 +1,11 @@
 
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getTrending, IMG, GENRES } from "../api/tmdb";
+import { getTrending } from "../api/cinemeta";
 
 export default function Hero() {
   const [items, setItems] = useState([]);
-  const [i, setI] = useState(0);
+  const [index, setIndex] = useState(0);
 
   useEffect(() => {
     let active = true;
@@ -13,10 +13,16 @@ export default function Hero() {
     getTrending()
       .then((data) => {
         if (active) {
-          setItems((data.results || []).filter((m) => m.title).slice(0, 5));
+          setItems(
+            (data.results || [])
+              .filter((movie) => movie.title)
+              .slice(0, 5)
+          );
         }
       })
-      .catch((err) => console.error("Hero loading error:", err));
+      .catch((error) => {
+        console.error("Hero loading error:", error);
+      });
 
     return () => {
       active = false;
@@ -27,7 +33,7 @@ export default function Hero() {
     if (!items.length) return;
 
     const timer = setInterval(() => {
-      setI((current) => (current + 1) % items.length);
+      setIndex((current) => (current + 1) % items.length);
     }, 8000);
 
     return () => clearInterval(timer);
@@ -35,17 +41,17 @@ export default function Hero() {
 
   if (!items.length) return <div className="hero" />;
 
-  const movie = items[i] || items[0];
+  const movie = items[index] || items[0];
 
   return (
     <header className="hero">
-      {items.map((item, index) => (
+      {items.map((item, i) => (
         <div
           key={item.id}
-          className={`hero-bg ${index === i ? "on" : ""}`}
+          className={`hero-bg ${i === index ? "on" : ""}`}
           style={{
-            backgroundImage: item.backdrop_path
-              ? `url(${IMG}/original${item.backdrop_path})`
+            backgroundImage: item.background
+              ? `url("${item.background}")`
               : "linear-gradient(120deg, #25164a, #111827, #080808)",
             backgroundColor: "#111",
           }}
@@ -56,11 +62,9 @@ export default function Hero() {
 
       <div className="hero-content" key={movie.id}>
         <div className="tags">
-          {(movie.genre_ids || []).slice(0, 3).map((genreId) =>
-            GENRES[genreId] ? (
-              <span key={genreId}>{GENRES[genreId].name}</span>
-            ) : null
-          )}
+          {(movie.genres || []).slice(0, 3).map((genre) => (
+            <span key={genre}>{genre}</span>
+          ))}
         </div>
 
         <h1>{movie.title}</h1>
@@ -70,8 +74,9 @@ export default function Hero() {
             {Math.round(Number(movie.vote_average || 0) * 10)}% Match
           </span>
           {" · "}
-          {movie.release_date?.slice(0, 4)}
-          {" · "}⭐ {Number(movie.vote_average || 0).toFixed(1)}
+          {movie.releaseInfo || movie.release_date?.slice(0, 4) || "Movie"}
+          {" · "}
+          ⭐ {Number(movie.vote_average || 0).toFixed(1)}
         </p>
 
         <p className="overview">{movie.overview}</p>
@@ -88,16 +93,15 @@ export default function Hero() {
       </div>
 
       <div className="hero-dots">
-        {items.map((_, index) => (
+        {items.map((item, i) => (
           <button
-            key={index}
-            className={index === i ? "on" : ""}
-            onClick={() => setI(index)}
-            aria-label={`Slide ${index + 1}`}
+            key={item.id}
+            className={i === index ? "on" : ""}
+            onClick={() => setIndex(i)}
+            aria-label={`Slide ${i + 1}`}
           />
         ))}
       </div>
     </header>
   );
 }
-

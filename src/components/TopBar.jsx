@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useNavigate, Link } from "react-router-dom";
-import { searchAll, IMG } from "../api/tmdb";
+import { searchAll, IMG } from "../api/cinemeta";
 import DiceModal from "./DiceModal";
 import "./TopBar.css";
 import FunSidebar from "./FunSidebar";
@@ -106,7 +106,7 @@ export default function TopBar() {
                     onClick={() => go(item)}
                   >
                     <img
-                      src={`${IMG}/w92${item.poster_path}`}
+                      src={item.poster}
                       alt={item.displayTitle}
                     />
 

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
-import { getMovie, IMG } from "../api/tmdb";
+import { getMovie, IMG } from "../api/cinemeta";
 import Watch from "./Watch";
 import "./Movie.css";
 
@@ -49,7 +49,7 @@ export default function Movie() {
       className="detail"
       style={{
         backgroundImage: movie.backdrop_path
-          ? `url(${IMG}/original${movie.backdrop_path})`
+          ? `url("${movie.background}")`
           : "linear-gradient(120deg, #25164a, #111827, #080808)",
       }}
     >
@@ -58,7 +58,7 @@ export default function Movie() {
       <div className="detail-body">
         <div className="tags">
           {genres.map((genre) => (
-            <span key={genre.id}>{genre.name}</span>
+            <span key={typeof genre === "string" ? genre : genre.id}>{typeof genre === "string" ? genre : genre.name}</span>
           ))}
         </div>
 

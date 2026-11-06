@@ -1,6 +1,6 @@
 import { useRef } from "react";
 import { Link } from "react-router-dom";
-import { IMG } from "../api/tmdb";
+import { IMG } from "../api/cinemeta";
 import useContinueWatching, { removeEntry, clearAll } from "../hooks/useContinueWatching";
 
 function label(e) {
@@ -35,7 +35,7 @@ export default function ContinueRow() {
           const pct = e.duration ? Math.min(100, (e.position / e.duration) * 100) : 0;
           return (
             <Link key={e.id} to={`/movie/${e.id}?play=1`} className="cw-card">
-              <img src={`${IMG}/w500${e.backdrop_path || e.poster_path}`} alt={e.title} loading="lazy" />
+              <img src={(e.backdrop_path || e.poster_path)} alt={e.title} loading="lazy" />
               <button
                 className="cw-x"
                 title="Remove"

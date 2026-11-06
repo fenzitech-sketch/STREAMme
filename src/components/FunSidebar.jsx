@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { createPortal } from "react-dom";
 import { Link } from "react-router-dom";
-import { getByMood, IMG } from "../api/tmdb";
+import { getByMood, IMG } from "../api/cinemeta";
 import { MOODS, GAMES, THINGS, THING_CATS, CAT_EMOJI, PLAYER_LABELS } from "../data/fun";
 import "./FunSidebar.css";
 
@@ -60,7 +60,7 @@ function MoodTab({ onClose }) {
                 className="fs-poster"
                 style={{ animationDelay: `${i * 0.06}s` }}
               >
-                <img src={`${IMG}/w342${m.poster_path}`} alt={m.title} loading="lazy" />
+                <img src={m.poster} alt={m.title} loading="lazy" />
                 <strong>{m.title}</strong>
                 <small>{m.release_date?.slice(0, 4)}</small>
               </Link>

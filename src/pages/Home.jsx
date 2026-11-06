@@ -6,7 +6,7 @@ import ContinueRow from "../components/ContinueRow";
 import Top10Row from "../components/Top10Row";
 import Row from "../components/Row";
 import MovieCard from "../components/MovieCard";
-import { getTrending, getTopRated, getByGenre } from "../api/tmdb";
+import { getTrending, getTopRated, getByGenre } from "../api/cinemeta";
 import "./Home.css";
 
 const CHIPS = [
@@ -89,7 +89,7 @@ export default function Home() {
       )}
 
       <footer className="foot">
-        STREAMHD · Local catalog with TMDB when available
+        STREAMHD · Powered by Cinemeta
       </footer>
     </>
   );

@@ -1,26 +1,33 @@
 
 import { Link, useNavigate } from "react-router-dom";
-import { IMG } from "../api/tmdb";
 import "./MovieCard.css";
 
 export default function MovieCard({ movie }) {
   const nav = useNavigate();
-  const year = movie.release_date?.slice(0, 4);
-  const rating = Number(movie.vote_average || 0);
 
-  const playNow = (e) => {
-    e.preventDefault();
-    e.stopPropagation();
+  const year =
+    movie.releaseInfo?.match(/\d{4}/)?.[0] ||
+    movie.release_date?.slice(0, 4);
+
+  const rating = Number(movie.vote_average || 0);
+  const poster = movie.poster || movie.poster_path;
+
+  const playNow = (event) => {
+    event.preventDefault();
+    event.stopPropagation();
     nav(`/movie/${movie.id}?play=1`);
   };
 
   return (
     <Link to={`/movie/${movie.id}`} className="card">
-      {movie.poster_path ? (
+      {poster ? (
         <img
-          src={`${IMG}/w342${movie.poster_path}`}
+          src={poster}
           alt={movie.title || "Movie"}
           loading="lazy"
+          onError={(event) => {
+            event.currentTarget.style.display = "none";
+          }}
         />
       ) : (
         <div
@@ -48,10 +55,9 @@ export default function MovieCard({ movie }) {
           ▶ Play
         </button>
         <span>
-          {year || "Movie"} ⭐ {rating.toFixed(1)}
+          {year || "Movie"} ⭐ {rating ? rating.toFixed(1) : "N/A"}
         </span>
       </div>
     </Link>
   );
 }
-

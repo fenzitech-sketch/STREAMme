@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, useNavigate } from "react-router-dom";
-import { getTV, getSeason, IMG } from "../api/tmdb";
+import { getTV, getSeason, IMG } from "../api/cinemeta";
 import {
   upsert,
   removeEntry,
@@ -48,7 +48,7 @@ function Episodes({ seasons, season, eps, current, onSeason, onPick }) {
             <div className="tv-ep-img">
               {ep.still_path ? (
                 <img
-                  src={`${IMG}/w300${ep.still_path}`}
+                  src={ep.still_path}
                   alt=""
                   loading="lazy"
                 />
@@ -249,7 +249,7 @@ export default function TV() {
         className="tv-bg"
         style={{
           backgroundImage: show.backdrop_path
-            ? `url(${IMG}/original${show.backdrop_path})`
+            ? `url("${show.background}")`
             : "none",
         }}
       />
@@ -269,7 +269,7 @@ export default function TV() {
           <div className="tv-hero">
             <div className="tags">
               {show.genres?.map((genre) => (
-                <span key={genre.id}>{genre.name}</span>
+                <span key={typeof genre === "string" ? genre : genre.id}>{typeof genre === "string" ? genre : genre.name}</span>
               ))}
             </div>
 

@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getMovie } from "../api/tmdb";
+import { getMovie } from "../api/cinemeta";
 import CineSrcPlayer from "../components/CineSrcPlayer";
 import Player from "../components/Player";
 import "./Watch.css";
@@ -13,7 +13,7 @@ export default function Watch() {
   const nav = useNavigate();
 
   const [movie, setMovie] = useState(null);
-  const [provider, setProvider] = useState("cinesrc");
+  const [provider, setProvider] = useState("library");
 const [embedSource, setEmbedSource] = useState(undefined); // undefined = checking, null = none
   const [librarySource, setLibrarySource] = useState("");
 
