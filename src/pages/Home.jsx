@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import TopBar from "../components/TopBar";
 import Hero from "../components/Hero";
@@ -26,13 +27,26 @@ function GenreGrid({ genreId }) {
   const [movies, setMovies] = useState([]);
 
   useEffect(() => {
-    setMovies([]);
-    getByGenre(genreId).then((d) => setMovies(d.results.filter((m) => m.poster_path)));
+    let active = true;
+
+    getByGenre(genreId)
+      .then((data) => {
+        if (active) {
+          setMovies((data.results || []).filter((movie) => movie.title));
+        }
+      })
+      .catch((err) => console.error("Genre loading error:", err));
+
+    return () => {
+      active = false;
+    };
   }, [genreId]);
 
   return (
     <div className="grid">
-      {movies.map((m) => <MovieCard key={m.id} movie={m} />)}
+      {movies.map((movie) => (
+        <MovieCard key={movie.id} movie={movie} />
+      ))}
     </div>
   );
 }
@@ -47,13 +61,13 @@ export default function Home() {
       {genre === null && <Hero />}
 
       <div className={`chips ${genre !== null ? "solo" : ""}`}>
-        {CHIPS.map((c) => (
+        {CHIPS.map((chip) => (
           <button
-            key={c.label}
-            className={genre === c.id ? "on" : ""}
-            onClick={() => setGenre(c.id)}
+            key={chip.label}
+            className={genre === chip.id ? "on" : ""}
+            onClick={() => setGenre(chip.id)}
           >
-            {c.label}
+            {chip.label}
           </button>
         ))}
       </div>
@@ -74,7 +88,10 @@ export default function Home() {
         <GenreGrid genreId={genre} />
       )}
 
-      <footer className="foot">NOVASTREAM · Movie data from TMDB</footer>
+      <footer className="foot">
+        STREAMHD · Local catalog with TMDB when available
+      </footer>
     </>
   );
 }
+

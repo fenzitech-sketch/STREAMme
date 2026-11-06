@@ -1,17 +1,43 @@
+
 import { useEffect, useRef, useState } from "react";
 import MovieCard from "./MovieCard";
 import "./Row.css";
 
 export default function Row({ title, fetcher }) {
   const [movies, setMovies] = useState([]);
+  const [error, setError] = useState(false);
   const scroller = useRef(null);
 
   useEffect(() => {
-    fetcher().then((d) => setMovies(d.results.filter((m) => m.poster_path)));
+    let active = true;
+
+    fetcher()
+      .then((data) => {
+        if (active) {
+          setMovies(
+            (data.results || []).filter((movie) => movie.title)
+          );
+          setError(false);
+        }
+      })
+      .catch((err) => {
+        console.error(`${title} loading error:`, err);
+        if (active) setError(true);
+      });
+
+    return () => {
+      active = false;
+    };
   }, []);
 
-  const scroll = (dir) =>
-    scroller.current.scrollBy({ left: dir * 600, behavior: "smooth" });
+  const scroll = (dir) => {
+    scroller.current?.scrollBy({
+      left: dir * 600,
+      behavior: "smooth",
+    });
+  };
+
+  if (error || !movies.length) return null;
 
   return (
     <section className="row">
@@ -22,9 +48,13 @@ export default function Row({ title, fetcher }) {
           <button onClick={() => scroll(1)}>›</button>
         </div>
       </div>
+
       <div className="row-scroll" ref={scroller}>
-        {movies.map((m) => <MovieCard key={m.id} movie={m} />)}
+        {movies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
       </div>
     </section>
   );
 }
+

@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from "react";
 import { useParams, useSearchParams, Link } from "react-router-dom";
 import { getMovie, IMG } from "../api/tmdb";
@@ -7,38 +8,77 @@ import "./Movie.css";
 export default function Movie() {
   const { id } = useParams();
   const [params] = useSearchParams();
-  const [m, setM] = useState(null);
+  const [movie, setMovie] = useState(null);
+  const [error, setError] = useState("");
 
-  useEffect(() => { getMovie(id).then(setM); }, [id]);
+  useEffect(() => {
+    let active = true;
 
-  // ?play=1 shows the player instead of the details
+    setMovie(null);
+    setError("");
+
+    getMovie(id)
+      .then((data) => {
+        if (active) setMovie(data);
+      })
+      .catch((err) => {
+        console.error("Movie details error:", err);
+        if (active) setError("Movie details are unavailable right now.");
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [id]);
+
   if (params.get("play") === "1") return <Watch />;
-  if (!m) return <p style={{ padding: 100 }}>Loading…</p>;
+
+  if (error) {
+    return <p style={{ padding: 100 }}>{error}</p>;
+  }
+
+  if (!movie) {
+    return <p style={{ padding: 100 }}>Loading…</p>;
+  }
+
+  const rating = Number(movie.vote_average || 0);
+  const genres = movie.genres || [];
 
   return (
     <div
       className="detail"
-      style={{ backgroundImage: `url(${IMG}/original${m.backdrop_path})` }}
+      style={{
+        backgroundImage: movie.backdrop_path
+          ? `url(${IMG}/original${movie.backdrop_path})`
+          : "linear-gradient(120deg, #25164a, #111827, #080808)",
+      }}
     >
       <div className="detail-fade" />
+
       <div className="detail-body">
         <div className="tags">
-          {m.genres.map((g) => <span key={g.id}>{g.name}</span>)}
+          {genres.map((genre) => (
+            <span key={genre.id}>{genre.name}</span>
+          ))}
         </div>
 
-        <h1>{m.title}</h1>
+        <h1>{movie.title || movie.name}</h1>
 
         <p className="meta">
-          ⭐ {m.vote_average.toFixed(1)} · {m.release_date?.slice(0, 4)} · {m.runtime} min
+          ⭐ {rating.toFixed(1)}
+          {" · "}
+          {movie.release_date?.slice(0, 4) || "Year unavailable"}
+          {" · "}
+          {movie.runtime ? `${movie.runtime} min` : "Runtime unavailable"}
         </p>
 
-        <p className="overview">{m.overview}</p>
+        <p className="overview">{movie.overview}</p>
 
-        {/* This replaces "Watch trailer" */}
-        <Link to={`/movie/${m.id}?play=1`} className="btn-play">
+        <Link to={`/movie/${movie.id}?play=1`} className="btn-play">
           ▶ Play
         </Link>
       </div>
     </div>
   );
 }
+
