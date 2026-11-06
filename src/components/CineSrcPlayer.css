@@ -175,3 +175,60 @@
     font-size: 8px;
   }
 }
+
+.nova-id-form {
+  padding: 35px;
+  text-align: center;
+  background: #101018;
+  border-radius: 12px;
+}
+
+.nova-id-form input,
+.nova-episode-controls input {
+  padding: 12px;
+  border: 1px solid #444;
+  border-radius: 8px;
+  background: #191923;
+  color: white;
+  width: 100%;
+  margin-top: 10px;
+}
+
+.nova-id-help {
+  font-size: 12px;
+  opacity: 0.7;
+}
+
+.nova-screen {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: #000;
+  overflow: hidden;
+}
+
+.nova-screen iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+
+.nova-episode-controls {
+  display: flex;
+  gap: 15px;
+  padding: 15px;
+}
+
+.nova-episode-controls label {
+  flex: 1;
+}
+
+.nova-change-id {
+  margin: 15px;
+  padding: 10px 16px;
+  border: 1px solid #555;
+  border-radius: 8px;
+  color: white;
+  background: #191923;
+  cursor: pointer;
+}

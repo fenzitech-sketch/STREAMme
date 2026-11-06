@@ -1,30 +1,64 @@
 
 import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import { getMovie } from "../api/cinemeta";
+
+import {
+  getMovie,
+  getTMDBMovieIdFromIMDb,
+} from "../api/cinemeta";
+
 import CineSrcPlayer from "../components/CineSrcPlayer";
 import Player from "../components/Player";
 import "./Watch.css";
-import { SERVERS } from "../data/servers";
-import { upsert, removeEntry, getEntry } from "../hooks/useContinueWatching";
 
 export default function Watch() {
   const { id } = useParams();
   const nav = useNavigate();
 
   const [movie, setMovie] = useState(null);
-  const [provider, setProvider] = useState("library");
-const [embedSource, setEmbedSource] = useState(undefined); // undefined = checking, null = none
+  const [tmdbId, setTmdbId] = useState("");
+  const [tmdbLoading, setTmdbLoading] = useState(false);
+  const [tmdbError, setTmdbError] = useState("");
+
+  const [provider, setProvider] = useState("cinesrc");
   const [librarySource, setLibrarySource] = useState("");
 
   useEffect(() => {
     let cancelled = false;
 
-    getMovie(id)
-      .then((data) => {
-        if (!cancelled) setMovie(data);
-      })
-      .catch(console.error);
+    async function loadMovie() {
+      setMovie(null);
+      setTmdbId("");
+      setTmdbError("");
+      setTmdbLoading(true);
+
+      try {
+        const movieData = await getMovie(id);
+
+        if (cancelled) return;
+
+        setMovie(movieData);
+
+        const imdbId = movieData.imdb_id || movieData.id;
+
+        const numericId = await getTMDBMovieIdFromIMDb(imdbId);
+
+        if (cancelled) return;
+
+        setTmdbId(numericId);
+      } catch (error) {
+        if (!cancelled) {
+          console.error("Movie loading error:", error);
+          setTmdbError(error.message || "Could not load movie.");
+        }
+      } finally {
+        if (!cancelled) {
+          setTmdbLoading(false);
+        }
+      }
+    }
+
+    loadMovie();
 
     return () => {
       cancelled = true;
@@ -73,10 +107,32 @@ const [embedSource, setEmbedSource] = useState(undefined); // undefined = checki
 
       <main className="main-player">
         {provider === "cinesrc" && (
-          <CineSrcPlayer
-            tmdbId={movie.id}
-            title={movie.title}
-          />
+          <section>
+            {tmdbLoading && (
+              <div className="player-message">
+                Finding movie ID...
+              </div>
+            )}
+
+            {!tmdbLoading && tmdbError && (
+              <div className="player-message">
+                <h3>Movie ID lookup failed</h3>
+                <p>{tmdbError}</p>
+                <button onClick={() => window.location.reload()}>
+                  Try again
+                </button>
+              </div>
+            )}
+
+            {!tmdbLoading && !tmdbError && tmdbId && (
+              <CineSrcPlayer
+                key={tmdbId}
+                tmdbId={tmdbId}
+                title={movie.title}
+                type="movie"
+              />
+            )}
+          </section>
         )}
 
         {provider === "library" && (
